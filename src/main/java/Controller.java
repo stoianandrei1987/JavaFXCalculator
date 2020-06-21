@@ -25,14 +25,15 @@ public class Controller implements Initializable {
     public void update(String s) {
         switch (s) {
 
-
             case "+":
-                if (!foregroundString.equals(""))
-                    foregroundString = changeEnd(foregroundString);
-                foregroundString += " +";
-                operation = Operation.ADDITION;
-                changeString = true;
 
+
+                if (!foregroundString.equals("")) {
+                    foregroundString = changeEnd(foregroundString);
+                    foregroundString += " +";
+                    operation = Operation.ADDITION;
+                    changeString = true;
+                }
                 break;
 
             case "-":
@@ -76,13 +77,16 @@ public class Controller implements Initializable {
 
             case "=":
                 foregroundString = perform(backgroundString, foregroundString, operation);
+                operation = null;
+            //    backgroundString = foregroundString;
                 break;
 
             default:
                 if (foregroundString.equals("0")) foregroundString = s;
                 else {
                     if (changeString == true) {
-                        backgroundString = perform(backgroundString, foregroundString, operation);
+                        // backgroundString = perform(backgroundString, foregroundString, operation);
+                        backgroundString = foregroundString;
                         foregroundString = "";
                         changeString = false;
 
@@ -93,6 +97,7 @@ public class Controller implements Initializable {
                 break;
         }
 
+      //  backgroundString = perform(backgroundString, foregroundString, operation);
         field.setText(foregroundString);
     }
 
@@ -177,7 +182,7 @@ public class Controller implements Initializable {
 
     public void btnCLPressed(ActionEvent actionEvent) {
         foregroundString = "";
-        backgroundString = "";
+        backgroundString = null;
         operation = null;
         field.setText(foregroundString);
     }
@@ -189,8 +194,10 @@ public class Controller implements Initializable {
 
     public static String perform(String operand1, String operand2, Operation op) {
 
-        if (operand1.matches("\\s*")) operand1 = "0";
-        if (operand2.matches("\\s*")) operand2 = "0";
+        if(op == null || operand1 == null) return operand2;
+
+        if (operand1.matches("\\s*") || operand1 == null) operand1 = "0";
+        if (operand2.matches("\\s*") || operand2 == null) operand2 = "0";
         operand1 = changeEnd(operand1);
         operand2 = changeEnd(operand2);
 
@@ -218,7 +225,8 @@ public class Controller implements Initializable {
 
         }
 
-        if(res.equals("0.0")) return "0";
+
+        if(res.matches("-?([0-9])+.(0)+")) return res.split("\\.")[0];
         else return res;
     }
 
@@ -227,7 +235,7 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         foregroundString = "";
-        backgroundString = "";
+        backgroundString = null;
         operation = null;
         changeString = false;
 
