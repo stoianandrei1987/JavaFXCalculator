@@ -1,5 +1,7 @@
 import javafx.event.ActionEvent;
 
+import java.math.BigDecimal;
+
 public class Controller {
 
     public void btnOnePressed(ActionEvent actionEvent) {
@@ -47,7 +49,6 @@ public class Controller {
     }
 
 
-
     public void btnDividePressed(ActionEvent actionEvent) {
     }
 
@@ -56,4 +57,23 @@ public class Controller {
 
     public void btnCLPressed(ActionEvent actionEvent) {
     }
+
+    public static String perform(String operand1, String operand2, Operation op) {
+
+        BigDecimal decimal1 = new BigDecimal(operand1), decimal2 = new BigDecimal(operand2);
+        switch (op) {
+            case ADDITION:
+                return decimal1.add(decimal2).toString();
+            case DIVISION:
+                return decimal1.divide(decimal2).toString();
+            case SUBTRACTION:
+                return decimal1.subtract(decimal2).toString();
+            case MULTIPLICATION:
+                return decimal1.multiply(decimal2).toString();
+            default: return "error";
+
+        }
+
+    }
+
 }
