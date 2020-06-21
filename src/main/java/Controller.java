@@ -25,62 +25,75 @@ public class Controller implements Initializable {
     public void update(String s) {
         switch (s) {
 
+
             case "+":
-                if (!foregroundString.equals("")) foregroundString += " +";
+                if (!foregroundString.equals(""))
+                    foregroundString = changeEnd(foregroundString);
+                foregroundString += " +";
                 operation = Operation.ADDITION;
                 changeString = true;
 
                 break;
+
             case "-":
                 if (!foregroundString.equals("")) {
-                    foregroundString = " -";
+                    foregroundString = changeEnd(foregroundString);
+                    foregroundString += " -";
                     operation = Operation.SUBTRACTION;
                     changeString = true;
 
                 } else {
                     foregroundString += "-";
-                };
+                }
+                ;
                 break;
+
             case "*":
                 if (!foregroundString.equals("")) {
-                    foregroundString = " *";
+                    foregroundString = changeEnd(foregroundString);
+                    foregroundString += " *";
+                    operation = Operation.MULTIPLICATION;
                     changeString = true;
 
                 }
 
-                operation = Operation.MULTIPLICATION;
                 break;
+
             case "/":
                 if (!foregroundString.equals("")) {
-                    foregroundString = " /";
+                    foregroundString = changeEnd(foregroundString);
+                    foregroundString += " /";
+                    operation = Operation.DIVISION;
                     changeString = true;
-
                 }
 
-                operation = Operation.DIVISION;
+
                 break;
+
             case ".":
                 if (!foregroundString.contains(".")) foregroundString += ".";
+                break;
+
             case "=":
-                if(backgroundString.equals("")) backgroundString = "0";
                 foregroundString = perform(backgroundString, foregroundString, operation);
                 break;
+
             default:
                 if (foregroundString.equals("0")) foregroundString = s;
                 else {
-                    if(changeString == true) {
+                    if (changeString == true) {
                         backgroundString = perform(backgroundString, foregroundString, operation);
                         foregroundString = "";
                         changeString = false;
 
                     }
-                    foregroundString+=s;
+                    foregroundString += s;
 
                 }
-
                 break;
+        }
 
-        } field.setText(foregroundString);
+        field.setText(foregroundString);
     }
 
     public void btnOnePressed(ActionEvent actionEvent) {
@@ -169,28 +182,44 @@ public class Controller implements Initializable {
         field.setText(foregroundString);
     }
 
+    public static String changeEnd(String s) {
+        if (s.matches("-?[0-9.]+\\s[+-//*/]")) return s.split(" ")[0];
+        return s;
+    }
+
     public static String perform(String operand1, String operand2, Operation op) {
 
-        if(operand1.equals("")) operand1 = "0";
-        if(operand2.equals("")) operand1 = "0";
-        operand1 = operand1.split(" ")[0];
-        operand2 = operand2.split(" ")[0];
+        if (operand1.matches("\\s*")) operand1 = "0";
+        if (operand2.matches("\\s*")) operand2 = "0";
+        operand1 = changeEnd(operand1);
+        operand2 = changeEnd(operand2);
 
         BigDecimal decimal1 = new BigDecimal(operand1), decimal2 = new BigDecimal(operand2);
+        String res;
+
         switch (op) {
+
             case ADDITION:
-                return decimal1.add(decimal2).toString();
+                res = decimal1.add(decimal2).toString();
+                break;
             case DIVISION:
-                return decimal1.divide(decimal2).toString();
+                res = decimal1.divide(decimal2).toString();
+                break;
             case SUBTRACTION:
-                return decimal1.subtract(decimal2).toString();
+                res = decimal1.subtract(decimal2).toString();
+                break;
             case MULTIPLICATION:
-                return decimal1.multiply(decimal2).toString();
+                res = decimal1.multiply(decimal2).toString();
+                break;
             default:
-                return "error";
+                if (operand1.equals("")) res = operand2;
+                res = operand1;
+                break;
 
         }
 
+        if(res.equals("0.0")) return "0";
+        else return res;
     }
 
 
