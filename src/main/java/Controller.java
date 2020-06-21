@@ -23,6 +23,17 @@ public class Controller implements Initializable {
     TextField field;
 
     public void update(String s) {
+        // logger
+
+        /*
+        if(s.matches("[\\+-\\/\\*]") && operation!=null) {
+            System.out.println("back:" + backgroundString);
+            System.out.println("fore:" + foregroundString);
+            backgroundString = perform(backgroundString, foregroundString, operation);
+        }
+
+         */
+
         switch (s) {
 
             case "+":
@@ -78,15 +89,39 @@ public class Controller implements Initializable {
             case "=":
                 foregroundString = perform(backgroundString, foregroundString, operation);
                 operation = null;
-            //    backgroundString = foregroundString;
                 break;
 
             default:
                 if (foregroundString.equals("0")) foregroundString = s;
                 else {
                     if (changeString == true) {
-                        // backgroundString = perform(backgroundString, foregroundString, operation);
-                        backgroundString = foregroundString;
+                        String lastChar = (backgroundString == null || backgroundString.equals("")) ?
+                                foregroundString.substring(foregroundString.length()-1) :
+                                backgroundString.substring(backgroundString.length()-1);
+                        System.out.println("lastchar is this : "+lastChar);
+                        if(lastChar.matches("[\\+-\\/\\*]")) {
+
+                            switch (lastChar) {
+                                case "+" :
+                                    backgroundString =
+                                            perform(backgroundString, foregroundString, Operation.ADDITION);
+                                    break;
+                                case "-" :
+                                    backgroundString =
+                                            perform(backgroundString, foregroundString, Operation.SUBTRACTION);
+                                    break;
+                                case "*" :
+                                    backgroundString =
+                                            perform(backgroundString, foregroundString, Operation.MULTIPLICATION);
+                                    break;
+                                case "/" :
+                                    backgroundString = perform(backgroundString, foregroundString, Operation.DIVISION);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                        backgroundString = foregroundString; }
                         foregroundString = "";
                         changeString = false;
 
@@ -97,7 +132,13 @@ public class Controller implements Initializable {
                 break;
         }
 
-      //  backgroundString = perform(backgroundString, foregroundString, operation);
+        System.out.println("----------------------------------------");
+        System.out.println("Update func running");
+        System.out.println("backgroundString : " + backgroundString);
+        System.out.println("foregroundString : " + foregroundString);
+        System.out.println("----------------------------------------");
+
+
         field.setText(foregroundString);
     }
 
