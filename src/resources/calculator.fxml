@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+          prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
+fx:controller="main.Controller">
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" percentWidth="25"/>
+        <ColumnConstraints hgrow="NEVER" percentWidth="25"/>
+        <ColumnConstraints hgrow="NEVER" percentWidth="25"/>
+        <ColumnConstraints hgrow="NEVER" percentWidth="25"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints percentHeight="20" vgrow="NEVER"/>
+        <RowConstraints percentHeight="20" vgrow="NEVER"/>
+        <RowConstraints percentHeight="20" vgrow="NEVER"/>
+        <RowConstraints percentHeight="20" vgrow="NEVER"/>
+        <RowConstraints percentHeight="20" vgrow="NEVER"/>
+    </rowConstraints>
+    <children>
+        <TextField GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.rowSpan="1"
+                   GridPane.columnSpan="3" GridPane.fillWidth="false" GridPane.halignment="CENTER"
+                   prefWidth="270" editable="false"/>
+        <Button GridPane.rowIndex="0" GridPane.rowSpan="1" onAction="#btnCLPressed" GridPane.halignment="CENTER"
+                GridPane.columnIndex="3" GridPane.columnSpan="1" text="CL" prefWidth="60" prefHeight="30"/>
+        <Button GridPane.rowIndex="1" GridPane.rowSpan="1" onAction="#btnOnePressed"
+                GridPane.columnIndex="0" GridPane.columnSpan="1" text="1" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="1" GridPane.rowSpan="1"  onAction="#btnTwoPressed"
+                GridPane.columnIndex="1" GridPane.columnSpan="1" text="2" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="1" GridPane.rowSpan="1" onAction="#btnThreePressed"
+                GridPane.columnIndex="2" GridPane.columnSpan="1" text="3" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="1" GridPane.rowSpan="1" onAction="#btnPlusPressed"
+                GridPane.columnIndex="3" GridPane.columnSpan="1" text="+" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="2" GridPane.rowSpan="1" onAction="#btnFourPressed"
+                GridPane.columnIndex="0" GridPane.columnSpan="1" text="4" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="2" GridPane.rowSpan="1" onAction="#btnFivePressed"
+                GridPane.columnIndex="1" GridPane.columnSpan="1" text="5" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="2" GridPane.rowSpan="1" onAction="#btnSixPressed"
+                GridPane.columnIndex="2" GridPane.columnSpan="1" text="6" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="2" GridPane.rowSpan="1" onAction="#btnMinusPressed"
+                GridPane.columnIndex="3" GridPane.columnSpan="1" text="-" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="3" GridPane.rowSpan="1" onAction="#btnSevenPressed"
+                GridPane.columnIndex="0" GridPane.columnSpan="1" text="7" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="3" GridPane.rowSpan="1" onAction="#btnEightPressed"
+                GridPane.columnIndex="1" GridPane.columnSpan="1" text="8" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="3" GridPane.rowSpan="1" onAction="#btnNinePressed"
+                GridPane.columnIndex="2" GridPane.columnSpan="1" text="9" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="3" GridPane.rowSpan="1" onAction="#btnMultiplyPressed"
+                GridPane.columnIndex="3" GridPane.columnSpan="1" text="*" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="4" GridPane.rowSpan="1" onAction="#btnZeroPressed"
+                GridPane.columnIndex="0" GridPane.columnSpan="1" text="0" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="4" GridPane.rowSpan="1" onAction="#btnEqualPressed"
+                GridPane.columnIndex="1" GridPane.columnSpan="1" text="=" prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="4" GridPane.rowSpan="1" onAction="#btnDotPressed"
+                GridPane.columnIndex="2" GridPane.columnSpan="1" text="." prefWidth="Infinity" prefHeight="Infinity"/>
+        <Button GridPane.rowIndex="4" GridPane.rowSpan="1" onAction="#btnDividePressed"
+                GridPane.columnIndex="3" GridPane.columnSpan="1" text="/" prefWidth="Infinity" prefHeight="Infinity"/>
+
+    </children>
+</GridPane>
