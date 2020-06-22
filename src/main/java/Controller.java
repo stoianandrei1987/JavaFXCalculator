@@ -55,8 +55,10 @@ public class Controller implements Initializable {
 
             case "=":
                 foregroundString = perform(backgroundString, foregroundString, prevOperation);
-                backgroundString = foregroundString;
+              //  backgroundString = foregroundString;
                 operation = null;
+                prevOperation = null;
+                backgroundString = null;
                 break;
 
             default:

@@ -19,12 +19,5 @@ public class ControllerTest {
 
     }
 
-    @org.junit.Test
-    public void changeEnd() {
-        Assert.assertTrue(Controller.changeEnd("123 +").equals("123"));
-        Assert.assertTrue(Controller.changeEnd("123 /").equals("123"));
-        Assert.assertTrue(Controller.changeEnd("-1223.2").equals("-1223.2"));
-        Assert.assertTrue(Controller.changeEnd("-4").equals("-4"));
-        Assert.assertTrue(Controller.changeEnd("-12 +").equals("-12"));
-    }
+
 }
