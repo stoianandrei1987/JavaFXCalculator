@@ -15,6 +15,7 @@ public class Controller implements Initializable {
     private String backgroundString;
     private Operation operation;
     boolean changeString;
+    boolean equalPressed = false;
 
     @FXML
     GridPane gridPane;
@@ -88,6 +89,7 @@ public class Controller implements Initializable {
 
             case "=":
                 foregroundString = perform(backgroundString, foregroundString, operation);
+                backgroundString = foregroundString;
                 operation = null;
                 break;
 
@@ -99,7 +101,8 @@ public class Controller implements Initializable {
                                 foregroundString.substring(foregroundString.length()-1) :
                                 backgroundString.substring(backgroundString.length()-1);
                         System.out.println("lastchar is this : "+lastChar);
-                        if(lastChar.matches("[\\+-\\/\\*]")) {
+                        String operationSign = "[\\+-\\/\\*]";
+                        if(lastChar.matches(operationSign)) {
 
                             switch (lastChar) {
                                 case "+" :
@@ -136,6 +139,7 @@ public class Controller implements Initializable {
         System.out.println("Update func running");
         System.out.println("backgroundString : " + backgroundString);
         System.out.println("foregroundString : " + foregroundString);
+        System.out.println("operation is : "+operation);
         System.out.println("----------------------------------------");
 
 
