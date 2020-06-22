@@ -6,6 +6,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -14,8 +15,10 @@ public class Controller implements Initializable {
     private String foregroundString;
     private String backgroundString;
     private Operation operation;
+    private Operation prevOperation;
     boolean changeString;
-    boolean equalPressed = false;
+    private static int num = 1;
+
 
     @FXML
     GridPane gridPane;
@@ -24,63 +27,26 @@ public class Controller implements Initializable {
     TextField field;
 
     public void update(String s) {
-        // logger
 
-        /*
-        if(s.matches("[\\+-\\/\\*]") && operation!=null) {
-            System.out.println("back:" + backgroundString);
-            System.out.println("fore:" + foregroundString);
-            backgroundString = perform(backgroundString, foregroundString, operation);
-        }
-
-         */
 
         switch (s) {
 
             case "+":
-
-
-                if (!foregroundString.equals("")) {
-                    foregroundString = changeEnd(foregroundString);
-                    foregroundString += " +";
-                    operation = Operation.ADDITION;
-                    changeString = true;
-                }
+                operation = Operation.ADDITION;
                 break;
 
             case "-":
-                if (!foregroundString.equals("")) {
-                    foregroundString = changeEnd(foregroundString);
-                    foregroundString += " -";
-                    operation = Operation.SUBTRACTION;
-                    changeString = true;
-
-                } else {
-                    foregroundString += "-";
-                }
-                ;
+                if(!field.getText().isBlank())
+                operation = Operation.SUBTRACTION;
+                else foregroundString+="-";
                 break;
 
             case "*":
-                if (!foregroundString.equals("")) {
-                    foregroundString = changeEnd(foregroundString);
-                    foregroundString += " *";
-                    operation = Operation.MULTIPLICATION;
-                    changeString = true;
-
-                }
-
+                operation = Operation.MULTIPLICATION;
                 break;
 
             case "/":
-                if (!foregroundString.equals("")) {
-                    foregroundString = changeEnd(foregroundString);
-                    foregroundString += " /";
-                    operation = Operation.DIVISION;
-                    changeString = true;
-                }
-
-
+                operation = Operation.DIVISION;
                 break;
 
             case ".":
@@ -88,62 +54,39 @@ public class Controller implements Initializable {
                 break;
 
             case "=":
-                foregroundString = perform(backgroundString, foregroundString, operation);
+                foregroundString = perform(backgroundString, foregroundString, prevOperation);
                 backgroundString = foregroundString;
                 operation = null;
                 break;
 
             default:
-                if (foregroundString.equals("0")) foregroundString = s;
-                else {
-                    if (changeString == true) {
-                        String lastChar = (backgroundString == null || backgroundString.equals("")) ?
-                                foregroundString.substring(foregroundString.length()-1) :
-                                backgroundString.substring(backgroundString.length()-1);
-                        System.out.println("lastchar is this : "+lastChar);
-                        String operationSign = "[\\+-\\/\\*]";
-                        if(lastChar.matches(operationSign)) {
+                if (operation != null) {
+                    if (backgroundString == null || backgroundString.equals("")) {
+                        backgroundString = foregroundString;
+                        foregroundString = s;
 
-                            switch (lastChar) {
-                                case "+" :
-                                    backgroundString =
-                                            perform(backgroundString, foregroundString, Operation.ADDITION);
-                                    break;
-                                case "-" :
-                                    backgroundString =
-                                            perform(backgroundString, foregroundString, Operation.SUBTRACTION);
-                                    break;
-                                case "*" :
-                                    backgroundString =
-                                            perform(backgroundString, foregroundString, Operation.MULTIPLICATION);
-                                    break;
-                                case "/" :
-                                    backgroundString = perform(backgroundString, foregroundString, Operation.DIVISION);
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                        backgroundString = foregroundString; }
-                        foregroundString = "";
-                        changeString = false;
+                    } else {
+                        backgroundString = perform(backgroundString, foregroundString, prevOperation);
+                        foregroundString = s;
 
                     }
-                    foregroundString += s;
-
-                }
+                    prevOperation = operation;
+                    operation = null;
+                } else foregroundString += s;
                 break;
         }
 
-        System.out.println("----------------------------------------");
-        System.out.println("Update func running");
-        System.out.println("backgroundString : " + backgroundString);
-        System.out.println("foregroundString : " + foregroundString);
-        System.out.println("operation is : "+operation);
-        System.out.println("----------------------------------------");
 
+        System.out.println("end update functions --->");
+        System.out.println("backgroundStringEnd : " + backgroundString);
+        System.out.println("foregroundStringEnd : " + foregroundString);
+        System.out.println("operation is : " + operation);
+        System.out.println("prevoperation is : " + prevOperation);
+        System.out.println("----------------------------------------");
+        System.out.println();
 
-        field.setText(foregroundString);
+        num++;
+        field.setText(foregroundString + (operation != null ? (" " + operation.toString()) : ""));
     }
 
     public void btnOnePressed(ActionEvent actionEvent) {
@@ -232,19 +175,14 @@ public class Controller implements Initializable {
         field.setText(foregroundString);
     }
 
-    public static String changeEnd(String s) {
-        if (s.matches("-?[0-9.]+\\s[+-//*/]")) return s.split(" ")[0];
-        return s;
-    }
 
     public static String perform(String operand1, String operand2, Operation op) {
 
-        if(op == null || operand1 == null) return operand2;
+        if (op == null || operand1 == null) return operand2;
 
         if (operand1.matches("\\s*") || operand1 == null) operand1 = "0";
         if (operand2.matches("\\s*") || operand2 == null) operand2 = "0";
-        operand1 = changeEnd(operand1);
-        operand2 = changeEnd(operand2);
+
 
         BigDecimal decimal1 = new BigDecimal(operand1), decimal2 = new BigDecimal(operand2);
         String res;
@@ -255,7 +193,7 @@ public class Controller implements Initializable {
                 res = decimal1.add(decimal2).toString();
                 break;
             case DIVISION:
-                res = decimal1.divide(decimal2).toString();
+                res = decimal1.divide(decimal2, 6, RoundingMode.FLOOR).toString();
                 break;
             case SUBTRACTION:
                 res = decimal1.subtract(decimal2).toString();
@@ -271,7 +209,7 @@ public class Controller implements Initializable {
         }
 
 
-        if(res.matches("-?([0-9])+.(0)+")) return res.split("\\.")[0];
+        if (res.matches("-?([0-9])+.(0)+")) return res.split("\\.")[0];
         else return res;
     }
 
