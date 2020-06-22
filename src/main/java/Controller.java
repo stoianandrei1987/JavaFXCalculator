@@ -2,6 +2,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
@@ -36,9 +37,9 @@ public class Controller implements Initializable {
                 break;
 
             case "-":
-                if(!field.getText().isBlank())
-                operation = Operation.SUBTRACTION;
-                else foregroundString+="-";
+                if (!field.getText().isBlank())
+                    operation = Operation.SUBTRACTION;
+                else foregroundString += "-";
                 break;
 
             case "*":
@@ -55,7 +56,7 @@ public class Controller implements Initializable {
 
             case "=":
                 foregroundString = perform(backgroundString, foregroundString, prevOperation);
-              //  backgroundString = foregroundString;
+                //  backgroundString = foregroundString;
                 operation = null;
                 prevOperation = null;
                 backgroundString = null;
@@ -219,10 +220,24 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+
         foregroundString = "";
         backgroundString = null;
         operation = null;
         changeString = false;
+
+        gridPane.addEventFilter(KeyEvent.KEY_PRESSED, (keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) btnEqualPressed(null);
+            else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+                if (operation != null) {
+                    operation = null;
+                } else if (foregroundString.length() > 0) {
+                    System.out.println("bspace");
+                    foregroundString = foregroundString.substring(0, foregroundString.length() - 1);
+                }
+                field.setText(foregroundString);
+            }
+        }));
 
         gridPane.addEventFilter(KeyEvent.KEY_TYPED, (event) -> {
 
